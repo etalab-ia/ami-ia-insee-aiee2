@@ -1,0 +1,46 @@
+{
+      "query": {
+        "bool": {
+          "should": [
+            {
+              "multi_match": {
+                "query": "{{rs_x}}",
+                "fields": [
+                  "fourretout",
+                  "fourretout.stem",
+                  "fourretout.ngr",
+                  "denom.acro"
+                ],
+                "boost": 10,
+                "fuzziness":"AUTO"
+              }
+            },
+            {
+              "match": {
+                "adr_et_loc_geo.depcom": {
+                  "query": "{{clt_c_c}}",
+                  "zero_terms_query": "all",
+                  "boost": 7
+                }
+              }
+            },
+            {
+              "match": {
+                "geo_l4": {
+                  "query": "{{nomvoi_x}}",
+                  "boost": 5
+                }
+              }
+            },
+            {
+              "match": {
+                "apet.div_naf": {
+                  "query": "{{actet_c_c}}",
+                  "boost": 1
+                }
+              }
+            }
+          ]
+        }
+      }
+    }

@@ -1,0 +1,61 @@
+{
+    "query": {
+      "function_score": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": "{{rs_x}}",
+                  "type": "best_fields",
+                  "zero_terms_query": "none",
+                  "fields": [
+                    "denom^10",
+                    "denom_condense^10",
+                    "denom.acro",
+                    "enseigne_et1^10",
+                    "nom_comm_et^10",
+                    "enseigne^10",
+                    "adr_et_l1^10",
+                    "adr_et_l2^10",
+                    "sigle",
+                    "denom.ngr",
+                    "denom_condense.ngr",
+                    "enseigne_et1.ngr",
+                    "nom_comm_et.ngr",
+                    "enseigne.ngr",
+                    "adr_et_l1.ngr",
+                    "adr_et_l2.ngr"
+                  ],
+                  "fuzziness": "AUTO",
+                  "max_expansions": 30,
+                  "prefix_length": 1
+                }
+              }
+            ],
+            "filter": {
+              "geo_distance": {
+                "distance": "500m",
+                "location": {
+                  "lat": "{{latitude}}",
+                  "lon": "{{longitude}}"
+                }
+              }
+            }
+          }},
+          "functions": [
+            {
+              "gauss": {
+                "location": {
+                  "origin": {
+                    "lat": "{{latitude}}",
+                    "lon": "{{longitude}}"
+                  },
+                  "scale": "100m"
+                }
+              }
+            }
+          ]
+        }
+      }
+  }

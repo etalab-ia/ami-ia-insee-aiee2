@@ -1,0 +1,120 @@
+{
+      "query": {
+        "bool": {
+          "filter": [
+            {
+              "multi_match": {
+                "query": "HOPITAL CHU CHRU HOSPITALIER",
+                "fields": [
+                  "denom",
+                  "adr_et_l1",
+                  "adr_et_l2",
+                  "adr_et_l3"
+                ]
+              }
+            }
+          ],
+          "should": [
+            {
+              "match": {
+                "rs_adr": {
+                  "query": "RS_X",
+                  "boost": 10
+                }
+              }
+            },
+            {
+              "match": {
+                "rs_adr.ngr": {
+                  "query": "RS_X",
+                  "boost": 6
+                }
+              }
+            },
+            {
+              "match": {
+                "rs_denom": {
+                  "query": "RS_X",
+                  "boost": 10
+                }
+              }
+            },
+            {
+              "match": {
+                "rs_denom.ngr": {
+                  "query": "RS_X",
+                  "boost": 6
+                }
+              }
+            },
+            {
+              "multi_match": {
+                "query": "PROFS_X",
+                "fields": [
+                  "denom.stem",
+                  "adr_et_l1.stem"
+                ],
+                "fuzziness": "AUTO",
+                "boost": 1
+              }
+            },
+            {
+              "term": {
+                "denom.acro": {
+                  "value": "RS_X",
+                  "boost": 5
+                }
+              }
+            },
+            {
+              "match": {
+                "sir_adr_et_com_lib": {
+                  "query": "CLT_X",
+                  "boost": 10
+                }
+              }
+            },
+            {
+              "match": {
+                "adr_et_loc_geo.depcom": {
+                  "query": "depcom_g",
+                  "boost": 20
+                }
+              }
+            },
+            {
+              "match": {
+                "apet.2car": {
+                  "query": "nafCorrige_2",
+                  "boost": 5
+                }
+              }
+            },
+            {
+              "match": {
+                "apet.3car": {
+                  "query": "nafCorrige_3",
+                  "boost": 4
+                }
+              }
+            },
+            {
+              "match": {
+                "apet.4car": {
+                  "query": "nafCorrige_4",
+                  "boost": 3
+                }
+              }
+            },
+            {
+              "match": {
+                "apet.5car": {
+                  "query": "nafCorrige_5",
+                  "boost": 2
+                }
+              }
+            }
+          ]
+        }
+      }
+    }

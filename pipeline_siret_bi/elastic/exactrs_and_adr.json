@@ -1,0 +1,65 @@
+{
+    "query": {
+      "bool": {
+        "must": {
+          "multi_match": {
+            "query": "{{rs_x}}",
+            "type": "best_fields",
+            "zero_terms_query": "none",
+            "fields": [
+              "denom.keyword",
+              "denom_condense.keyword",
+              "denom.acro",
+              "enseigne_et1.keyword",
+              "nom_comm_et.keyword",
+              "enseigne.keyword",
+              "adr_et_l1.keyword",
+              "adr_et_l2.keyword",
+              "sigle.keyword"
+            ],
+            "fuzziness": "AUTO",
+            "max_expansions": 30,
+            "prefix_length": 1
+          }
+        },
+        "should": [
+          {
+            "multi_match": {
+              "query": "{{nomvoi_x}}",
+              "type": "best_fields",
+              "zero_terms_query": "all",
+              "fields": [
+                "adr_et_voie_lib^2",
+                "adr_et_voie_lib.ngr"
+              ],
+              "boost": 2
+            }
+          },
+          {
+            "match": {
+              "adr_et_voie_num":{
+              "query": "{{numvoi_x}}"}
+            }
+          },
+          {
+            "multi_match": {
+              "query": "{{clt_x}}",
+              "zero_terms_query": "all",
+              "fields": [
+                "sir_adr_et_com_lib^2",
+                "sir_adr_et_com_lib.ngr"
+              ],
+              "boost": 2
+            }
+          },
+          {
+            "match": {
+              "adr_et_loc_geo.depcom":{
+              "query": "{{clt_c_c}}"}
+            }
+          }
+        ],
+        "minimum_should_match": 2
+      }
+    }
+  }

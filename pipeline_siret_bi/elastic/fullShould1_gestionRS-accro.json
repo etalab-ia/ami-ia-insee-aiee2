@@ -1,0 +1,62 @@
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "multi_match": {
+            "query": "{{rs_x}}",
+            "fields": [
+              "denom^5",
+              "denom_condense",
+              "denom.stem^2",
+              "denom.ngr",
+              "adr_et_l1^2",
+              "adr_et_l1.stem",
+              "nom_comm_et",
+              "nom_comm_et.stem",
+              "sigle"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "{{actet_x}}",
+            "fields": [
+              "denom.stem",
+              "adr_et_l1.stem"
+            ],
+            "fuzziness": "AUTO"
+          }
+        },
+        {
+          "match": {
+            "apet.div_naf": {
+              "query": "{{actect_c_c}}",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "term": {
+            "denom.acro": {
+              "value": "{{rs_x}}",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "wildcard": {
+            "adr_et_loc_geo": {
+              "value": "{{clt_c_c*}}"
+            }
+          }
+        },
+        {
+          "match": {
+            "sir_adr_et_com_lib": "{{clt_x}}"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  db_settings_file: s3://ssplab/aiee2/data/settings.yml
+
+files:
+  - individus_geo_test_2020:
+    minio_url: ssplab/aiee2/data/RP/geo/
+    file_format: geo-ear2020_test
+    table_name: rp_geo_test_2020
+    typage_file: typage_rp_geo.csv
+    options_csv_dta:
+      separator_csv: ';' 
+      separator_buffer: '~'

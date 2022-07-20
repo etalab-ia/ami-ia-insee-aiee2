@@ -1,0 +1,77 @@
+{
+      "query": {
+        "bool": {
+          "should": [
+            {
+              "multi_match": {
+                "query": "{{RS_X}}",
+                "fields": [
+                  "fourretout",
+                  "fourretout.stem",
+                  "fourretout.ngr",
+                  "denom.acro",
+                  "enseigne_re",
+                  "enseigne_re_groupe"
+                ],
+                "boost": 10,
+                "fuzziness":"AUTO"
+              }
+            },
+            {
+              "multi_match": {
+                "query": "{{RS_X}}",
+                "fields": [
+                  "geo_l4"
+                ],
+                "boost": 3,
+                "fuzziness":"AUTO"
+              }
+            },
+            {
+              "match": {
+                "apet.div_naf": {
+                  "query": "{{ACTET_2C}}",
+                  "boost": 1
+                }
+              }
+            },
+            {
+              "multi_match": {
+                "query": "{{RS_X}}",
+                "fields": [
+                  "rs_x_e",
+                  "rs_x_e.ngr",
+                  "rs_x_e.stem"
+                ],
+                "boost": 4,
+                "fuzziness":"AUTO"
+              }
+            },
+            {
+              "multi_match": {
+                "query": "{{ACTET_X}}",
+                "fields": [
+                  "actet_x_e",
+                  "actet_x_e.ngr",
+                  "actet_x_e.stem"
+                ],
+                "boost": 2,
+                "fuzziness":"AUTO"
+              }
+            },
+            {
+              "multi_match": {
+                "query": "{{PROFS_X}}",
+                "fields": [
+                  "profs_x_e",
+                  "profs_x_e.ngr",
+                  "profs_x_e.stem"
+                ],
+                "boost": 1,
+                "fuzziness":"AUTO"
+              }
+            }
+          ]
+        }
+      }
+    }

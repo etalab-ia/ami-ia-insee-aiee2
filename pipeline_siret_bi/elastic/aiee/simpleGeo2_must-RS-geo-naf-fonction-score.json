@@ -1,0 +1,59 @@
+{
+  "explain": false,
+  "query": {
+    "function_score": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "multi_match": {
+                "query": "RS_X",
+                "fields": [
+                  "sigle",
+                  "denom",
+                  "denom_condense",
+                  "enseigne_et1",
+                  "nom_comm_et",
+                  "adr_et_l1",
+                  "adr_et_l2",
+                  "enseigne"
+                ]
+              }
+            }
+          ],
+          "should": [
+            {  "multi_match": {
+                "query": "ACTET_2C",
+                "fields": [
+                  "apet.div_naf",
+                  "ape.div_naf"
+                ]
+              }}
+          ], 
+          "filter": {
+            "geo_distance": {
+              "distance": "10km",
+              "location": {
+                "lat": "latitude",
+                "lon": "longitude"
+              }
+            }
+          }
+        }
+      },
+      "functions": [
+        {
+          "gauss": {
+            "location": {
+              "origin": {
+                "lat": "latitude",
+                "lon": "longitude"
+              },
+              "scale": "5km"
+            }
+          }
+        }
+      ]
+    }
+  }
+} 

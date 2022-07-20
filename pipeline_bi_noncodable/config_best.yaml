@@ -1,0 +1,79 @@
+#no smote
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  bucket: s3://ssplab/aiee2/
+  
+import_data_sql: "SELECT * FROM rp_final_2019"
+
+
+cleaners:
+    - clean1: 
+        type: "CleanerRemoveSpecialChar"
+        cols: 
+            - "rs_x"
+            - "clt_x"
+            - "profs_x"
+            - "profi_x"
+            - "profa_x"
+            - "numvoi_x"
+            - "typevoi_x"
+            - "actet_x"
+            - "dlt_x"
+            - "plt_x"
+            - "vardompart_x"
+            - "siretm"
+            - "siretc"
+processes: 
+    - tr1:
+        type: "ProcessMLP"
+        param:
+            fasttext: True
+            embeddings_size: 296
+            list_cols: 
+                - "rs_x"
+                - "clt_x"
+                - "profs_x"
+                - "profi_x"
+                - "profa_x"
+                - "numvoi_x"
+                - "typevoi_x"
+                - "actet_x"
+                - "dlt_x"
+                - "plt_x"
+                - "vardompart_x"
+
+echantillon: []
+
+
+models:
+#   - model0:
+#           type: "XGBoost"
+#           param: 
+#               hyper_param: 'param_xgboost_2020-08-14_41.pickle'
+              
+  - model1:
+          type: "MLPTransformer"
+          param: 
+              fasttext: True
+              nb_transformerblocks: 1
+              num_heads: 4
+              transformer_ffdim: 96
+              denses_sizes: [256,64,16]
+          
+#   - model2:
+#           type: "AutoSK"
+#           param: {}
+          
+#   - model3:
+#           type: "XGBoost"
+#           param: {}
+          
+#   - model4:
+#           type: "Svm"
+#           param: {}
+                  
+                  
+
+
+
+

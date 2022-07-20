@@ -1,0 +1,5 @@
+#!/bin/bash
+
+python pipeline.py -c config2.yaml &&
+sleep 5 &&
+python pipeline.py

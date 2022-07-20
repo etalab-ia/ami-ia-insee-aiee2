@@ -1,0 +1,36 @@
+app:
+  log_level: INFO
+  security:
+    password_file: passwords.json
+    username: admin_recap
+    password: 
+    token_algorithm: HS256
+    token_secret_key: 09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+    token_lifetime_in_min: 8640
+
+models:
+  local_directory: models
+  minio_endpoint: http://minio.ouest.innovation.insee.eu
+  naf_model: s3://ssplab/aiee2/nomenclatures/published_models/NAF_2020-12-09
+  pcs_model: s3://ssplab/aiee2/nomenclatures/published_models/PCS_2020-12-10
+  siret_model: s3://ssplab/aiee2/production/publish/siret_bi_2021-05-25
+  noncodables_model: s3://ssplab/aiee2/non_codable_new/publish/bi_noncodable_2021-02-15
+
+elasticsearch:
+  host: ["http://es01-elastic-ssplab.marathon-ouest.containerip.dcos.thisdcos.directory:9200","http://es02-elastic-ssplab.marathon-ouest.containerip.dcos.thisdcos.directory:9200","http://es03-elastic-ssplab.marathon-ouest.containerip.dcos.thisdcos.directory:9200"]
+  port: 9200
+  index_bi: rp_2020_e
+  index_sirus: sirus_2020_e
+
+bdd:
+  minio_path_to_settings_file: s3://ssplab/aiee2/data/settings.yml
+  bi_table: rp_2020
+  bi_geo_table: rp_geo_2020
+  sirus_table: sirus_2020
+  sirus_proj_table: sirus_projections_2020
+  naf_proj_table: naf_projections_2020
+
+addok_apis:
+  ban: http://api-ban.ouest.innovation.insee.eu/search
+  bano: http://api-bano.ouest.innovation.insee.eu/search
+  poi: http://api-poi.ouest.innovation.insee.eu/search

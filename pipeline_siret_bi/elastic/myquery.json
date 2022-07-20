@@ -1,0 +1,21 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "{{RS_X}}",
+            "fields": [
+              "denom",
+              "denom_condense",
+              "adr_et_l1",
+              "nom_comm_et",
+              "sigle"
+            ],
+            "boost": 1
+          }
+        }
+      ]
+    }
+  }
+}
