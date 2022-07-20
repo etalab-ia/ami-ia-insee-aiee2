@@ -1,9 +1,0 @@
-{
-  "query": {
-    "bool": {
-      "must": {
-          "term" : { "_id" : "{{CABBI}}" }
-      }
-    }
-  }
-}

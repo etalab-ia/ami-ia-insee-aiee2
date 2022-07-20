@@ -1,9 +1,0 @@
-FROM harbor.developpement.insee.fr/ssplab/aiee2/tensorflow_and_req:latest
-
-WORKDIR /recap_service
-
-COPY src/ .
-
-EXPOSE 8000
-
-CMD ["uvicorn", "--host", "0.0.0.0", "main_app:app"]

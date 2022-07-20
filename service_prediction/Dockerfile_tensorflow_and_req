@@ -1,9 +1,0 @@
-FROM harbor.developpement.insee.fr/docker.io/tensorflow/tensorflow:2.3.1
-
-COPY requirements.txt ./
-COPY pip.conf ./
-ENV PIP_CONFIG_FILE pip.conf
-RUN pip3 install uvloop==0.14.0
-RUN pip3 install pybind11
-RUN pip3 install -r requirements.txt
-
