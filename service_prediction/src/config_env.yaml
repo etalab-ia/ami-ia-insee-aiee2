@@ -1,0 +1,34 @@
+app:
+  log_level: !ENV ${APP_LOG_LEVEL}
+  security:
+    username: !ENV ${APP_USERNAME}
+    password: !ENV ${APP_PASSWORD}
+    token_algorithm: HS256
+    token_secret_key: !ENV ${APP_TOKEN_SECRET_KEY}
+    token_lifetime_in_min: !ENV ${APP_TOKEN_LIFETIME_IN_MIN}
+
+models:
+  local_directory: !ENV ${APP_LOCAL_DIRECTORY}
+  minio_endpoint: !ENV ${APP_MINIO_ENDPOINT}
+  naf_model: !ENV ${APP_MINIO_NAF_MODEL_PATH}
+  pcs_model: !ENV ${APP_MINIO_PCS_MODEL_PATH}
+  siret_model: !ENV ${APP_MINIO_SIRET_MODEL_PATH}
+  noncodables_model: !ENV ${APP_MINIO_NONCODABLES_MODEL_PATH}
+
+elasticsearch:
+  host: !ENV ${APP_ELASTICSEARCH_HOSTSLIST}
+  port: !ENV ${APP_ELASTICSEARCH_PORT}
+  index_bi: !ENV ${APP_ELASTICSEARCH_INDEX_BI}
+  index_sirus: !ENV ${APP_ELASTICSEARCH_INDEX_SIRUS}
+
+bdd:
+  minio_path_to_settings_file: !ENV ${APP_BDD_MINIO_PATH_TO_SETTINGS}
+  bi_table: !ENV ${APP_BDD_TABLE_BI}
+  sirus_table: !ENV ${APP_BDD_TABLE_SIRUS}
+  sirus_proj_table: !ENV ${APP_BDD_TABLE_SIRUS_PROJ}
+  naf_proj_table: !ENV ${APP_BDD_TABLE_NAF_PROJ}
+
+addok_apis:
+  ban: !ENV ${APP_ADDOK_BAN_API}
+  bano: !ENV ${APP_ADDOK_BANO_API}
+  poi: !ENV ${APP_ADDOK_POI_API}

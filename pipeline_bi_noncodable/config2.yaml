@@ -1,0 +1,63 @@
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  
+import__data_sql: "SELECT * FROM rp_final_2019 LIMIT 100000"
+  
+cleaners:
+    - clean1: 
+        type: "CleanerRemoveSpecialChar"
+        cols: 
+            - "rs_x"
+            - "clt_x"
+            - "profs_x"
+            - "profi_x"
+            - "profa_x"
+            - "numvoi_x"
+            - "typevoi_x"
+            - "actet_x"
+            - "dlt_x"
+            - "plt_x"
+            
+transformers:
+    - trans1:
+        type: "TransformerBigram"
+        param:
+            list_df_cols:
+                - "rs_x"
+                - "clt_x"
+                - "profs_x"
+                - "profi_x"
+                - "profa_x"
+                - "numvoi_x"
+                - "typevoi_x"
+                - "actet_x"
+                - "dlt_x"
+                - "plt_x"
+    - trans2:
+        type: "TransformerTfIdf"
+        param:
+            list_df_cols:
+                - "rs_x"
+                - "clt_x"
+            len_tfidf: 200
+            
+echantillon: []
+    
+models:
+  - tree:
+          type: "Tree"
+          param: {}
+
+  - xgb:
+          type: "XGBoost"
+          param:
+                 tuning: False
+          
+  - logreg:
+          type: "LogRegr"
+          param: {}
+
+  - svm:
+          type: "Svm"
+          param: 
+                  tuning: False

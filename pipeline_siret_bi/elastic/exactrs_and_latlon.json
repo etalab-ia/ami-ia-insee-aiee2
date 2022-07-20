@@ -1,0 +1,54 @@
+{
+    "query": {
+      "function_score": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": "{{rs_x}}",
+                  "type": "best_fields",
+                  "zero_terms_query": "none",
+                  "fields": [
+                     "denom.keyword",
+                     "denom_condense.keyword",
+                     "denom.acro",
+                     "enseigne_et1.keyword",
+                     "nom_comm_et.keyword",
+                     "enseigne.keyword",
+                     "adr_et_l1.keyword",
+                     "adr_et_l2.keyword",
+                     "sigle.keyword"
+                  ],
+                  "fuzziness": "AUTO",
+                  "max_expansions": 30,
+                  "prefix_length": 1
+                }
+              }
+            ],
+            "filter": {
+              "geo_distance": {
+                "distance": "1000m",
+                "location": {
+                  "lat": "{{latitude}}",
+                  "lon": "{{longitude}}"
+                }
+              }
+            }
+          }},
+          "functions": [
+            {
+              "gauss": {
+                "location": {
+                  "origin": {
+                    "lat": "{{latitude}}",
+                    "lon": "{{longitude}}"
+                  },
+                  "scale": "200m"
+                }
+              }
+            }
+          ]
+        }
+      }
+  }

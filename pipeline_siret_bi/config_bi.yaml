@@ -1,0 +1,50 @@
+#no smote
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  bucket: s3://ssplab/aiee2/
+
+import_data_sql: "SELECT r.*, lot_id, vague_id FROM rp_final_2019 r LEFT JOIN bi_lot_2019 b ON r.cabbi = b.cabbi LIMIT 100  "
+prediction_mode: False
+path_output: "output"
+cols_id:
+    - "cabbi"
+cleaners:
+    - clean1: 
+        type: "CleanerRemoveSpecialChar"
+        cols: 
+            - "rs_x"
+            - "clt_x"
+            - "profs_x"
+            - "profi_x"
+            - "profa_x"
+            - "actet_x"
+            - "dlt_x"
+            - "plt_x"
+            - "siretc"
+            - "cabbi"      
+processes: 
+    - tr1:
+        type: "ProcessMLPSiamese"
+        param:
+            fasttext: False
+            fasttext_size: 120
+            ngram: "3"
+            list_cols: 
+                fusion_bi:
+                    - "rs_x"
+                    - "actet_x"
+                    - "profs_x"
+                    - "clt_x"
+                    - "dlt_x"
+echantillon: []
+models:
+    - model1:
+        type: "MLPSimilarity"
+        param:  
+            fasttext: False
+            embedding_size: 120
+            nb_blocks: 1
+            nb_heads: 3
+            ff_dim: 64
+            denses_sizes: [128]
+              

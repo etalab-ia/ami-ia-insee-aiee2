@@ -1,0 +1,83 @@
+cache:
+  key: one-key-to-rule-them-all
+  
+variables:
+  GIT_SSL_NO_VERIFY: "1"
+  DOCKER_IMAGE_NAME: "ssplab/aiee2/service_prediction"
+  DOCKER_OS_IMAGE_NAME: "ssplab/aiee2/tensorflow_and_req"
+  DOCKER_IMAGE_TAG: "latest"
+  PYTHON_PIP_PROXY: "http://proxy-rie.http.insee.fr:8080"
+  DOCKER_REGISTRY: "harbor.developpement.insee.fr"
+  HTTP_PROXY: "http://proxy-rie.http.insee.fr:8080"
+  HTTPS_PROXY: "http://proxy-rie.http.insee.fr:8080"
+  NO_PROXY: ".insee.test,.insee.eu,.insee.fr,.intra,.mesos,.thisdcos.directory,.dcos.directory,.zk,127.0.0.1,localhost"
+
+stages:
+  - build_os
+  - build
+  - documentation
+  - publish
+
+build_os:
+  tags:
+      - poc-kube
+  stage: build_os
+  only:
+      - build_os
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"robot\$ssplab+gitlab\",\"password\":\"$REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/service_prediction --skip-tls-verify --registry-mirror $DOCKER_REGISTRY --dockerfile $CI_PROJECT_DIR/service_prediction/Dockerfile_tensorflow_and_req --destination $DOCKER_REGISTRY/$DOCKER_OS_IMAGE_NAME:$CI_COMMIT_TAG --single-snapshot
+  allow_failure: false
+
+build:
+  tags:
+      - poc-kube
+  stage: build
+  only:
+      - master
+      - release
+      - tags
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - cd service_prediction
+    - sh build_docker_image_2.sh
+  allow_failure: true
+
+doc:
+  tags:
+      - poc-kube
+  stage: documentation
+  only:
+      - release
+  image: sphinxdoc/sphinx:3.2.1
+  script:
+    - pip install -U recommonmark -i https://nexus.insee.fr/repository/pypi-public/simple --trusted-host nexus.insee.fr
+    - pip install -U sphinx_bootstrap_theme -i https://nexus.insee.fr/repository/pypi-public/simple --trusted-host nexus.insee.fr
+    - pip install -U sphinx_markdown_tables -i https://nexus.insee.fr/repository/pypi-public/simple --trusted-host nexus.insee.fr
+    - cd documentation
+    - command make html
+    - mkdir -p ../public
+    - cp -r build/html/* ../public
+  artifacts:
+      paths:
+        - public
+
+pages:
+  tags:
+      - poc-kube
+  stage: publish
+  only:
+      - release
+  dependencies:
+    - doc
+  script:
+    - cd .
+  artifacts:
+    paths:
+      - public

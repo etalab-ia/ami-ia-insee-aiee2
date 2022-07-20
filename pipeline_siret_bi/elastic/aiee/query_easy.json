@@ -1,0 +1,38 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "{{RS_X}}",
+            "fields": [
+              "denom",
+              "denom_condense",
+              "adr_et_l1",
+              "nom_comm_et",
+              "sigle"
+            ],
+            "boost": 1
+          }
+        },
+        {
+          "multi_match": {
+            "query": "{{NOMVOI_X}}",
+            "fields": [
+              "adr_et_l4"
+            ],
+            "boost":1
+          }
+        },
+        {
+          "multi_match": {
+            "query": "{{depcom_g}}",
+            "fields": [
+              "adr_et_loc_geo.depcom"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

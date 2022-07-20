@@ -1,0 +1,12 @@
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  db_settings_file: s3://ssplab/aiee2/data/settings.yml
+
+files:
+  - individus_test_2020:
+    minio_url: ssplab/aiee2/data/RP/ear2020_dep92_complx1.csv
+    table_name: rp_2020
+    typage_file: typage_individus.csv
+    options_csv_dta:
+      separator_csv: ',' 
+      separator_buffer: '~'

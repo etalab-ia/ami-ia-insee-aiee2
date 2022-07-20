@@ -1,0 +1,64 @@
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "multi_match": {
+            "query": "{{rs_x}}",
+            "fields": [
+              "denom",
+              "adr_et_l1",
+              "adr_et_l2",
+              "adr_et_l3"
+            ]
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "fourretout": {
+              "query": "{{rs_x}}",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "multi_match": {
+            "query": "{{profs_x}}",
+            "fields": [
+              "denom.stem",
+              "adr_et_l1.stem"
+            ],
+            "fuzziness": "AUTO",
+            "boost": 1
+          }
+        },
+        {
+          "term": {
+            "denom.acro": {
+              "value": "{{rs_x}}",
+              "boost": 5
+            }
+          }
+        },
+        {
+          "match": {
+            "sir_adr_et_com_lib": {
+              "query": "{{clt_x}}",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "match": {
+            "apet.div_naf": {
+              "query": "{{actet_c_c}}",
+              "boost": 5
+            }
+          }
+        }
+      ]
+    }
+  }
+}

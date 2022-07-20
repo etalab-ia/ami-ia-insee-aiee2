@@ -1,0 +1,20 @@
+minio:
+  endpoint: http://minio.ouest.innovation.insee.eu
+  db_settings_file: s3://ssplab/aiee2/data/settings.yml
+
+files:
+  - nomenclatures:
+    minio_url: s3://ssplab/aiee2/data/nomenclatures/data_nomenclatures.csv
+    table_name: nomenclatures
+    typage_file: typage_nomenclatures.csv
+    options_csv_dta:
+      separator_csv: ';' 
+      separator_buffer: '~' 
+    
+  - modalites:
+    minio_url: s3://ssplab/aiee2/data/nomenclatures/data_modalites.csv
+    table_name: modalites
+    typage_file: typage_modalites.csv
+    options_csv_dta:
+      separator_csv: ';' 
+      separator_buffer: '~' 

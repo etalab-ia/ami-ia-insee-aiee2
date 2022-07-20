@@ -1,0 +1,33 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "{{rs_x}}",
+            "fields": [
+              "denom",
+              "denom_condense",
+              "enseigne",
+              "sigle",
+              "enseigne_et1",
+              "nom_comm_et",
+              "adr_et_l1",
+              "adr_et_l2"
+            ]
+          }
+        }
+      ],
+      "should": [
+        {
+          "multi_match": {
+            "query": "{{clt_c_c}}",
+            "fields": [
+              "adr_et_loc_geo"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

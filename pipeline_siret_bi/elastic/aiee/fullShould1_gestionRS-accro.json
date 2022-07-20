@@ -1,0 +1,72 @@
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "multi_match": {
+            "query": "RS_X",
+            "fields": [
+              "denom^5",
+              "denom_condense",
+              "denom.stem^2",
+              "denom.ngr",
+              "adr_et_l1^2",
+              "adr_et_l1.stem",
+              "nom_comm_et",
+              "nom_comm_et.stem",
+              "sigle"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "ACTET_X",
+            "fields": [
+              "denom.stem",
+              "adr_et_l1.stem"
+            ],
+            "fuzziness": "AUTO"
+          }
+        },
+        {
+          "match": {
+            "apet.div_naf": {
+              "query": "ACTET_2C",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "term": {
+            "denom.acro": {
+              "value": "RS_X",
+              "boost": 10
+            }
+          }
+        },
+        {
+          "wildcard": {
+            "adr_et_loc_geo": {
+              "value": "depcom_g*"
+            }
+          }
+        },
+        {
+          "match": {
+            "sir_adr_et_com_lib": "CLT_X"
+          }
+        }
+      ]
+    }
+  },
+  "highlight": {
+    "fields": {
+      "denom": {},
+      "denom.stem": {},
+      "denom_condense": {},
+      "adr_et_l1": {},
+      "adr_et_l1.stem": {},
+      "denom.ngr": {}
+    }
+  }
+}

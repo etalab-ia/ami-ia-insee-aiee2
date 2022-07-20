@@ -1,0 +1,15 @@
+{
+  "mappings": {
+    "properties": {
+      "siret" : { "type": "text" },
+      "sirus_id":    { "type": "text" },  
+      "nic":  { "type": "text"  }, 
+      "vector":   { "type": "text"  }     
+    }
+  },
+  "settings":{
+    "index": {
+      "number_of_replicas": 2
+    }
+  }
+}
